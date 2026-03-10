@@ -1,0 +1,21 @@
+services:
+  notebook:
+    build: .
+    container_name: learning-profile-notebook
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  dashboard:
+    build: .
+    container_name: learning-profile-dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    command: streamlit run dashboard/app.py --server.address=0.0.0.0
+    restart: unless-stopped
+    profiles:
+      - dashboard
