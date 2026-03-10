@@ -209,3 +209,6 @@ __marimo__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Linux trash
+.Trash-0/
