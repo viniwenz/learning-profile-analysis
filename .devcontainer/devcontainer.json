@@ -19,5 +19,5 @@
     }
   },
   "remoteUser": "root",
-  "postStartCommand": "echo 'Container ready'"
+  "postStartCommand": "git config --global --add safe.directory /app && echo 'Container ready'"
 }
