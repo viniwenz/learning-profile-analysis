@@ -1,0 +1,19 @@
+{
+  "name": "Learning Profile Analysis",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "notebook",
+  "workspaceFolder": "/app",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
+  },
+  "remoteUser": "root",
+  "postStartCommand": "echo 'Container ready'"
+}
