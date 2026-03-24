@@ -1,0 +1,13 @@
+profile,order,recommendation,source
+Analytical,1,"Oferecer desafios matemáticos e lógicos além do currículo padrão - puzzles, problemas de raciocínio e projetos de investigação independente",Gardner (1983) - Inteligência Lógico-Matemática
+Analytical,2,"Estimular atividades de pesquisa estruturada com etapas definidas, incentivando o pensamento científico e a resolução sistemática de problemas",Gardner (1983) - Inteligência Espacial
+Analytical,3,"Promover atividades colaborativas para desenvolver habilidades interpessoais, equilibrando os pontos fortes analíticos com competências sociais",Antunes (1998)
+Communicative,1,"Utilizar narrativas, debates e discussões em grupo como principais veículos de aprendizado",Gardner (1983) - Inteligência Linguística e Interpessoal
+Communicative,2,"Atribuir papéis de liderança em atividades em grupo - mediador, porta-voz, organizador",Gardner (1983) - Inteligência Interpessoal
+Communicative,3,"Incentivar expressão escrita e oral por meio de diários, apresentações e peer teaching",Armstrong (2001)
+Kinesthetic,1,"Incorporar atividades práticas, construção de modelos e movimento físico nas aulas",Gardner (1983) - Inteligência Corporal-Cinestésica
+Kinesthetic,2,Estruturar a rotina em blocos curtos e variados de tarefas para apoiar a regulação emocional,CASEL (2020) - Autogestão
+Kinesthetic,3,"Reconhecer que comportamentos de agitação podem refletir necessidade de estímulo cinestésico, não indisciplina",Brasil. MEC/SEESP (2008)
+Balanced,1,Manter estratégias de ensino variadas para sustentar o engajamento em múltiplas dimensões,Gardner (1983) - Teoria das Inteligências Múltiplas
+Balanced,2,Oferecer atividades de enriquecimento em diferentes áreas para identificar potenciais latentes,Brasil. MEC/SEESP (2006) - Altas Habilidades
+Balanced,3,Monitorar indicadores socioemocionais ao longo do tempo para detectar padrões emergentes,"Fredricks, Blumenfeld & Paris (2004)"

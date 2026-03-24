@@ -93,3 +93,28 @@ SANTOS, F. A. et al. Mapeamento sistemático da literatura brasileira sobre EDM 
 CASEL. *CASEL's SEL Framework: What Are the Core Competence Areas and Where Are They Promoted?* Chicago: Collaborative for Academic, Social, and Emotional Learning, 2020.
 
 FREDRICKS, J. A.; BLUMENFELD, P. C.; PARIS, A. H. School engagement: potential of the concept, state of the evidence. *Review of Educational Research*, v. 74, n. 1, p. 59–109, 2004.
+
+---
+
+## 5. Pedagogical Recommendations — Mapping Rationale
+
+Each learning profile identified by the K-Means model was mapped to 2–3
+pedagogical recommendations derived from the following sources:
+
+- **GARDNER, H.** *Frames of Mind*. Basic Books, 1983. — primary source for
+  recommendations tied to each intelligence dimension
+- **ARMSTRONG, T.** *Inteligências Múltiplas na sala de aula*. Artmed, 2001. —
+  practical classroom strategies derived from Gardner's framework
+- **ANTUNES, C.** *As inteligências múltiplas e seus estímulos*. Papirus, 1998. —
+  stimulus strategies per intelligence dimension
+- **CASEL.** *SEL Framework*. 2020. — socioemotional regulation strategies
+  for the Kinesthetic profile
+- **BRASIL. MEC/SEESP.** *Política Nacional de Educação Especial*. 2008. —
+  inclusive education guidelines applied to the Kinesthetic profile
+- **BRASIL. MEC/SEESP.** *Altas Habilidades/Superdotação*. 2006. —
+  enrichment strategies applied to the Balanced profile
+- **FREDRICKS, J. A.; BLUMENFELD, P. C.; PARIS, A. H.** School engagement.
+  *Review of Educational Research*, 2004. — engagement monitoring applied
+  to the Balanced profile
+
+The full recommendations table is available at `data/recommendations.csv`.
