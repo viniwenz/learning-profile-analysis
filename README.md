@@ -87,7 +87,7 @@ Before running the dashboard, execute the notebooks in order:
 
 ### Run the dashboard
 ```bash
-streamlit dashboard/run app.py --server.address=0.0.0.0 --server.port=8501
+streamlit run dashboard/app.py --server.address=0.0.0.0 --server.port=8501
 ```
 
 Open your browser at: `http://localhost:8501`
