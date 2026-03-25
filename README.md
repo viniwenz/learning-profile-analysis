@@ -75,6 +75,25 @@ and all dependencies pre-installed.
 
 ---
 
+## Execution Order
+
+Before running the dashboard, execute the notebooks in order:
+
+1. `notebooks/01_exploratory_analysis.ipynb` — generates `data/synthetic_dataset.csv`
+2. `notebooks/02_modeling.ipynb` — generates `data/dataset_dashboard.csv`
+3. `notebooks/03_dashboard.ipynb` — generates `data/recommendations.csv`
+
+---
+
+### Run the dashboard
+```bash
+streamlit dashboard/run app.py --server.address=0.0.0.0 --server.port=8501
+```
+
+Open your browser at: `http://localhost:8501`
+
+---
+
 ## Using Real Data
 
 This project supports two modes:
