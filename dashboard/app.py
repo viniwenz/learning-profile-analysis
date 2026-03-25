@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 import seaborn as sns
 import numpy as np
+import os
 
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -13,8 +14,9 @@ st.set_page_config(
 )
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-DATA_PATH = "../data/dataset_dashboard.csv"
-REC_PATH  = "../data/recommendations.csv"
+BASE_DIR  = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.join(BASE_DIR, "../data/dataset_dashboard.csv")
+REC_PATH  = os.path.join(BASE_DIR, "../data/recommendations.csv")
 
 PROFILE_COLORS = {
     "Analytical":    "#D85A30",
@@ -48,7 +50,7 @@ SCORE_LABELS = {
 # ── Data loading ──────────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    df = pd.read_csv(DATA_PATH)
+    df  = pd.read_csv(DATA_PATH)
     rec = pd.read_csv(REC_PATH)
     return df, rec
 
@@ -82,16 +84,10 @@ def page_class_overview(df):
         count = len(df[df["profile"] == profile])
         pct   = count / len(df) * 100
         with cols[i]:
-            st.markdown(
-                f"""
-                <div style='background:#f8f9fa;border-radius:8px;padding:1rem;
-                            border-left:4px solid {PROFILE_COLORS[profile]}'>
-                    <p style='margin:0;font-size:13px;color:#666'>{profile}</p>
-                    <p style='margin:0;font-size:26px;font-weight:600'>{count}</p>
-                    <p style='margin:0;font-size:13px;color:#999'>{pct:.0f}% of class</p>
-                </div>
-                """,
-                unsafe_allow_html=True,
+            st.metric(
+                label=profile,
+                value=count,
+                delta=f"{pct:.0f}% of class",
             )
 
     st.divider()
@@ -166,11 +162,10 @@ def page_class_overview(df):
 
 
 # ── Page 2 — Student Profile ──────────────────────────────────────────────────
-def page_student_profile(df):
+def page_student_profile(df, rec):
     st.header("Student Profile")
     st.divider()
 
-    # ── Student selector
     col_sel, col_info = st.columns([1, 2])
     with col_sel:
         student_name = st.selectbox(
@@ -183,21 +178,22 @@ def page_student_profile(df):
     color    = PROFILE_COLORS.get(profile, "#ccc")
 
     with col_info:
-        st.markdown(
-            f"""
-            <div style='background:#f8f9fa;border-radius:8px;padding:1rem;
-                        border-left:4px solid {color};margin-top:1.6rem'>
-                <p style='margin:0;font-size:13px;color:#666'>Learning profile</p>
-                <p style='margin:0;font-size:22px;font-weight:600;color:{color}'>{profile}</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
+        st.metric(label="Learning Profile", value=profile)
 
+    # ── Recommendations ───────────────────────────────────────────────────────
+    st.divider()
+    st.subheader("📚 Pedagogical Recommendations")
+    profile_recs = rec[rec["profile"] == profile].reset_index(drop=True)
+
+    for _, row in profile_recs.iterrows():
+        with st.container(border=True):
+            st.write(row["recommendation"])
+            st.caption(f"📖 {row['source']}")
+
+    # ── Charts ────────────────────────────────────────────────────────────────
     st.divider()
     col1, col2 = st.columns(2)
 
-    # ── Bar chart — individual scores vs class mean
     with col1:
         st.subheader("Scores vs Class Mean")
         labels       = list(SCORE_LABELS.values())
@@ -219,7 +215,6 @@ def page_student_profile(df):
         st.pyplot(fig)
         plt.close()
 
-    # ── Radar chart — individual profile
     with col2:
         st.subheader("Individual Radar")
         labels  = list(SCORE_LABELS.values())
@@ -241,18 +236,15 @@ def page_student_profile(df):
         st.pyplot(fig)
         plt.close()
 
-    # ── Score table
+    # ── Score table ───────────────────────────────────────────────────────────
     st.subheader("Score Detail")
     score_table = pd.DataFrame({
-        "Dimension": labels,
-        f"{student_name}": [round(student[c], 1) for c in SCORE_COLUMNS],
+        "Dimension":  labels,
+        student_name: [round(student[c], 1) for c in SCORE_COLUMNS],
         "Class mean": [round(df[c].mean(), 1) for c in SCORE_COLUMNS],
-        "Difference": [
-            round(student[c] - df[c].mean(), 1) for c in SCORE_COLUMNS
-        ],
+        "Difference": [round(student[c] - df[c].mean(), 1) for c in SCORE_COLUMNS],
     })
     st.dataframe(score_table, use_container_width=True, hide_index=True)
-
 
 # ── Page 3 — Recommendations ──────────────────────────────────────────────────
 def page_recommendations(df, rec):
@@ -285,9 +277,9 @@ def page_recommendations(df, rec):
     )
 
     for _, row in profile_recs.iterrows():
-        with st.expander(f"Recommendation {int(row['order'])}"):
+        with st.container(border=True):
             st.write(row["recommendation"])
-            st.caption(f"📖 Source: {row['source']}")
+            st.caption(f"📖 {row['source']}")
 
     st.divider()
     st.subheader("Students in this profile")
@@ -295,7 +287,6 @@ def page_recommendations(df, rec):
         ["student_name"] + SCORE_COLUMNS
     ].rename(columns=SCORE_LABELS).round(1)
     st.dataframe(students, use_container_width=True, hide_index=True)
-
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main():
@@ -316,10 +307,9 @@ def main():
     if page == "🏫 Class Overview":
         page_class_overview(df)
     elif page == "👤 Student Profile":
-        page_student_profile(df)
+        page_student_profile(df, rec)
     elif page == "📚 Recommendations":
         page_recommendations(df, rec)
-
 
 if __name__ == "__main__":
     main()
