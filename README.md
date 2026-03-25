@@ -81,7 +81,7 @@ Before running the dashboard, execute the notebooks in order:
 
 1. `notebooks/01_exploratory_analysis.ipynb` — generates `data/synthetic_dataset.csv`
 2. `notebooks/02_modeling.ipynb` — generates `data/dataset_dashboard.csv`
-3. `notebooks/03_dashboard.ipynb` — generates `data/recommendations.csv`
+3. `notebooks/03_recommendations.ipynb` — generates `data/recommendations.csv`
 
 ---
 
