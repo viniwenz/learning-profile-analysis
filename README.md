@@ -111,6 +111,15 @@ emotional_regulation, engagement_frequency
 ```
 All score columns must be numeric values between 0 and 10.
 
+## Dashboard Language
+
+The dashboard interface (`dashboard/app.py`) is presented in **Portuguese (pt-BR)**.
+This is an intentional design decision aligned with the project's target audience -
+Brazilian public school educators who are the primary users of the tool, as defined in the project's personas.
+
+The codebase (variable names, comments, function names) remains in English,
+following standard software development conventions.
+
 ## Tech Stack
 
 - Python 3.11
