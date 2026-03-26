@@ -9,7 +9,7 @@ import os
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Learning Profile Analysis",
-    page_icon="📊",
+    page_icon="https://institutocriativo.com.br/assets/instituto_criativo_logo-CfKDAQNn.png",
     layout="wide",
 )
 
@@ -57,12 +57,12 @@ def load_data():
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 def render_sidebar():
     with st.sidebar:
-        st.title("📊 Learning Profile Analysis")
+        st.title("Learning Profile Analysis")
         st.caption("Instituto Criativo · XP Educação · 2026")
         st.divider()
         page = st.radio(
             "Navigation",
-            ["🏫 Class Overview", "👤 Student Profile", "📚 Recommendations"],
+            ["Class Overview", "Student Profile", "Recommendations"],
             label_visibility="collapsed",
         )
         st.divider()
@@ -182,13 +182,13 @@ def page_student_profile(df, rec):
 
     # ── Recommendations ───────────────────────────────────────────────────────
     st.divider()
-    st.subheader("📚 Pedagogical Recommendations")
+    st.subheader("Pedagogical Recommendations")
     profile_recs = rec[rec["profile"] == profile].reset_index(drop=True)
 
     for _, row in profile_recs.iterrows():
         with st.container(border=True):
             st.write(row["recommendation"])
-            st.caption(f"📖 {row['source']}")
+            st.caption(f"{row['source']}")
 
     # ── Charts ────────────────────────────────────────────────────────────────
     st.divider()
@@ -279,7 +279,7 @@ def page_recommendations(df, rec):
     for _, row in profile_recs.iterrows():
         with st.container(border=True):
             st.write(row["recommendation"])
-            st.caption(f"📖 {row['source']}")
+            st.caption(f"{row['source']}")
 
     st.divider()
     st.subheader("Students in this profile")
@@ -304,11 +304,11 @@ def main():
 
     page = render_sidebar()
 
-    if page == "🏫 Class Overview":
+    if page == "Class Overview":
         page_class_overview(df)
-    elif page == "👤 Student Profile":
+    elif page == "Student Profile":
         page_student_profile(df, rec)
-    elif page == "📚 Recommendations":
+    elif page == "Recommendations":
         page_recommendations(df, rec)
 
 if __name__ == "__main__":
