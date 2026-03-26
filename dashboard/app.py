@@ -280,21 +280,15 @@ def page_recommendations(df, rec):
     color   = PROFILE_COLORS[selected_profile]
     profile_recs = rec[rec["profile"] == selected_profile].reset_index(drop=True)
 
-    st.markdown(
-        f"""
-        <div style='background:#f8f9fa;border-radius:8px;padding:1rem;
-                    border-left:4px solid {color};margin-bottom:1rem'>
-            <p style='margin:0;font-size:18px;font-weight:600;color:{color}'>
-                {selected_profile} Profile
-            </p>
-            <p style='margin:0;font-size:13px;color:#666'>
-                {len(df[df["profile"]==selected_profile])} alunos neste perfil
-                ({len(df[df["profile"]==selected_profile])/len(df)*100:.0f}% da turma)
-            </p>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    col_perfil, col_count = st.columns([2, 1])
+
+    with col_perfil:
+        st.metric(label="Perfil selecionado", value=f"{selected_profile}")
+
+    with col_count:
+        count = len(df[df["profile"] == selected_profile])
+        pct   = count / len(df) * 100
+        st.metric(label="Alunos neste perfil", value=count, delta=f"{pct:.0f}% da turma")
 
     for _, row in profile_recs.iterrows():
         with st.container(border=True):
