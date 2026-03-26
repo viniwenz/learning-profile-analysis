@@ -8,7 +8,7 @@ import os
 
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Learning Profile Analysis",
+    page_title="Análise de Perfil de Aprendizado",
     page_icon="https://institutocriativo.com.br/assets/instituto_criativo_logo-CfKDAQNn.png",
     layout="wide",
 )
@@ -57,25 +57,23 @@ def load_data():
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 def render_sidebar():
     with st.sidebar:
-        st.title("Learning Profile Analysis")
+        st.title("Análise de Perfil de Aprendizado")
         st.caption("Instituto Criativo · XP Educação · 2026")
-        st.divider()
         page = st.radio(
-            "Navigation",
-            ["Class Overview", "Student Profile", "Recommendations"],
+            "Navegação",
+            ["Visão Geral da Turma", "Perfil do Aluno", "Recomendações"],
             label_visibility="collapsed",
         )
-        st.divider()
         st.caption(
-            "Based on Gardner's Theory of Multiple Intelligences (1983) "
-            "and socioemotional learning indicators."
+            "Baseado na Teoria das Inteligências Múltiplas de Gardner (1983) "
+            "e indicadores socioemocionais."
         )
     return page
 
 # ── Page 1 — Class Overview ───────────────────────────────────────────────────
 def page_class_overview(df):
-    st.header("Class Overview")
-    st.caption(f"Dataset: {len(df)} students · {df['profile'].nunique()} learning profiles identified")
+    st.header("Visão Geral da Turma")
+    st.caption(f"Dataset: {len(df)} alunos · {df['profile'].nunique()} perfis de aprendizado identificados")
     st.divider()
 
     # ── Metric cards
@@ -87,7 +85,7 @@ def page_class_overview(df):
             st.metric(
                 label=profile,
                 value=count,
-                delta=f"{pct:.0f}% of class",
+                delta=f"{pct:.0f}% da turma",
             )
 
     st.divider()
@@ -95,7 +93,7 @@ def page_class_overview(df):
 
     # ── Bar chart — profile distribution
     with col1:
-        st.subheader("Profile Distribution")
+        st.subheader("Distribuição dos Perfis")
         dist = df["profile"].value_counts()
         fig, ax = plt.subplots(figsize=(6, 4))
         bars = ax.barh(
@@ -106,7 +104,7 @@ def page_class_overview(df):
         for bar, val in zip(bars, dist.values):
             ax.text(val + 0.3, bar.get_y() + bar.get_height() / 2,
                     str(val), va="center", fontsize=10)
-        ax.set_xlabel("Number of students")
+        ax.set_xlabel("Número de alunos")
         ax.set_xlim(0, dist.values.max() + 6)
         sns.despine(ax=ax)
         plt.tight_layout()
@@ -115,7 +113,7 @@ def page_class_overview(df):
 
     # ── Radar chart — mean scores per profile
     with col2:
-        st.subheader("Mean Scores per Profile")
+        st.subheader("Médias por Perfil")
         labels  = list(SCORE_LABELS.values())
         N       = len(labels)
         angles  = [n / float(N) * 2 * np.pi for n in range(N)]
@@ -139,7 +137,7 @@ def page_class_overview(df):
         plt.close()
 
     # ── Heatmap — cluster profiles
-    st.subheader("Mean Scores per Profile — Heatmap")
+    st.subheader("Médias por Perfil - Heatmap")
     cluster_means = (
         df.groupby("profile")[SCORE_COLUMNS]
         .mean()
@@ -155,7 +153,7 @@ def page_class_overview(df):
         linewidths=0.5,
         ax=ax,
     )
-    ax.set_ylabel("Profile")
+    ax.set_ylabel("Perfil")
     plt.tight_layout()
     st.pyplot(fig)
     plt.close()
@@ -163,13 +161,13 @@ def page_class_overview(df):
 
 # ── Page 2 — Student Profile ──────────────────────────────────────────────────
 def page_student_profile(df, rec):
-    st.header("Student Profile")
+    st.header("Perfil do Aluno")
     st.divider()
 
     col_sel, col_info = st.columns([1, 2])
     with col_sel:
         student_name = st.selectbox(
-            "Select a student",
+            "Selecionar aluno",
             sorted(df["student_name"].tolist()),
         )
 
@@ -178,11 +176,11 @@ def page_student_profile(df, rec):
     color    = PROFILE_COLORS.get(profile, "#ccc")
 
     with col_info:
-        st.metric(label="Learning Profile", value=profile)
+        st.metric(label="Perfil de Aprendizado", value=profile)
 
     # ── Recommendations ───────────────────────────────────────────────────────
     st.divider()
-    st.subheader("Pedagogical Recommendations")
+    st.subheader("Recomendações Pedagógicas")
     profile_recs = rec[rec["profile"] == profile].reset_index(drop=True)
 
     for _, row in profile_recs.iterrows():
@@ -195,7 +193,7 @@ def page_student_profile(df, rec):
     col1, col2 = st.columns(2)
 
     with col1:
-        st.subheader("Scores vs Class Mean")
+        st.subheader("Scores vs Média da Turma")
         labels       = list(SCORE_LABELS.values())
         student_vals = [student[c] for c in SCORE_COLUMNS]
         class_means  = df[SCORE_COLUMNS].mean().tolist()
@@ -216,7 +214,7 @@ def page_student_profile(df, rec):
         plt.close()
 
     with col2:
-        st.subheader("Individual Radar")
+        st.subheader("Radar Individual")
         labels  = list(SCORE_LABELS.values())
         N       = len(labels)
         angles  = [n / float(N) * 2 * np.pi for n in range(N)]
@@ -237,23 +235,23 @@ def page_student_profile(df, rec):
         plt.close()
 
     # ── Score table ───────────────────────────────────────────────────────────
-    st.subheader("Score Detail")
+    st.subheader("Detalhamento dos Scores")
     score_table = pd.DataFrame({
-        "Dimension":  labels,
+        "Dimensão":  labels,
         student_name: [round(student[c], 1) for c in SCORE_COLUMNS],
-        "Class mean": [round(df[c].mean(), 1) for c in SCORE_COLUMNS],
-        "Difference": [round(student[c] - df[c].mean(), 1) for c in SCORE_COLUMNS],
+        "Média da Turma": [round(df[c].mean(), 1) for c in SCORE_COLUMNS],
+        "Diferença": [round(student[c] - df[c].mean(), 1) for c in SCORE_COLUMNS],
     })
     st.dataframe(score_table, use_container_width=True, hide_index=True)
 
 # ── Page 3 — Recommendations ──────────────────────────────────────────────────
 def page_recommendations(df, rec):
-    st.header("Pedagogical Recommendations")
-    st.caption("Recommendations derived from Gardner (1983), Armstrong (2001), Antunes (1998), CASEL (2020), and MEC/SEESP.")
+    st.header("Recomendações Pedagógicas")
+    st.caption("Recomendações derivadas de Gardner (1983), Armstrong (2001), Antunes (1998), CASEL (2020) e MEC/SEESP.")
     st.divider()
 
     selected_profile = st.selectbox(
-        "Select a profile",
+        "Selecionar Perfil",
         ["Analytical", "Communicative", "Kinesthetic", "Balanced"],
     )
 
@@ -268,8 +266,8 @@ def page_recommendations(df, rec):
                 {selected_profile} Profile
             </p>
             <p style='margin:0;font-size:13px;color:#666'>
-                {len(df[df["profile"]==selected_profile])} students in this profile
-                ({len(df[df["profile"]==selected_profile])/len(df)*100:.0f}% of class)
+                {len(df[df["profile"]==selected_profile])} alunos neste perfil
+                ({len(df[df["profile"]==selected_profile])/len(df)*100:.0f}% da turma)
             </p>
         </div>
         """,
@@ -282,7 +280,7 @@ def page_recommendations(df, rec):
             st.caption(f"{row['source']}")
 
     st.divider()
-    st.subheader("Students in this profile")
+    st.subheader("Alunos neste perfil")
     students = df[df["profile"] == selected_profile][
         ["student_name"] + SCORE_COLUMNS
     ].rename(columns=SCORE_LABELS).round(1)
@@ -304,12 +302,13 @@ def main():
 
     page = render_sidebar()
 
-    if page == "Class Overview":
+    if page == "Visão Geral da Turma":
         page_class_overview(df)
-    elif page == "Student Profile":
+    elif page == "Perfil do Aluno":
         page_student_profile(df, rec)
-    elif page == "Recommendations":
+    elif page == "Recomendações":
         page_recommendations(df, rec)
 
 if __name__ == "__main__":
     main()
+    
