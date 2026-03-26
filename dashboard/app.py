@@ -5,6 +5,7 @@ import matplotlib
 import seaborn as sns
 import numpy as np
 import os
+from streamlit_option_menu import option_menu
 
 # ── Page config ──────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -59,11 +60,32 @@ def render_sidebar():
     with st.sidebar:
         st.title("Análise de Perfil de Aprendizado")
         st.caption("Instituto Criativo · XP Educação · 2026")
-        page = st.radio(
-            "Navegação",
-            ["Visão Geral da Turma", "Perfil do Aluno", "Recomendações"],
-            label_visibility="collapsed",
+        page = option_menu(
+            menu_title=None,
+            options=["Visão Geral da Turma", "Perfil do Aluno", "Recomendações"],
+            icons=["people", "person-circle", "book"],
+            default_index=0,
+                styles={
+                    "container": {
+                        "padding": "0",
+                        "background-color": "transparent",
+                    },
+                    "nav-link": {
+                        "font-size": "14px",
+                        "text-align": "left",
+                        "margin": "2px 0",
+                        "--hover-color": "rgba(255,255,255,0.1)",
+                    },
+                    "nav-link-selected": {
+                        "background-color": "rgba(255,255,255,0.15)",
+                        "font-weight": "500",
+                    },
+                    "icon": {
+                        "font-size": "14px",
+                    },
+                },
         )
+        st.divider()
         st.caption(
             "Baseado na Teoria das Inteligências Múltiplas de Gardner (1983) "
             "e indicadores socioemocionais."
